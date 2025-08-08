@@ -17,6 +17,7 @@ export default function HomePage() {
   const [countries, setCountries] = useState<Country[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [activeRegion, setActiveRegion] = useState("None");
+  const [finalData, setFinalData] = useState<Country[]>([]);
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -29,6 +30,27 @@ export default function HomePage() {
     };
     fetchCountries();
   }, []);
+
+  useEffect(() => {
+    let result = countries;
+
+    const filterCountries = () => {
+      if (activeRegion) {
+        result = result.filter((country) => {
+          return activeRegion === "None" || !activeRegion
+            ? true
+            : country.region === activeRegion;
+        });
+      }
+      result = result.filter((country) =>
+        country?.name?.common.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+      setFinalData(result);
+    };
+
+    filterCountries();
+  }, [activeRegion, searchTerm, countries]);
 
   return (
     <div className="mb-40">
@@ -46,18 +68,8 @@ export default function HomePage() {
       </Container>
 
       <Container className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 px-5 lg:px-0">
-        {countries
-          .filter((country) =>
-            country?.name?.common
-              .toLowerCase()
-              .includes(searchTerm.toLowerCase())
-          )
-          .filter((country) => {
-            return activeRegion === "None" || !activeRegion
-              ? true
-              : country.region === activeRegion;
-          })
-          .map((country, index) => (
+        {finalData.length > 0 &&
+          finalData.map((country, index) => (
             <CountryCard
               className="transform hover:-translate-y-2 transition duration-300 ease-in-out hover:outline hover:outline-solid hover:outline-white"
               key={index}

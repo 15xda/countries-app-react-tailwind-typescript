@@ -9,7 +9,7 @@ export default function SearchBox({ onChange }: SearchBoxProps) {
     <input
       onChange={onChange}
       type="text"
-      className="px-5 py-3 focus:outline-none bg-[#1F1F1F] text-white"
+      className="focus:outline focus:outline-white px-5 py-3 bg-[#1F1F1F] text-white"
       placeholder="Enter a country name ..."
     />
   );

@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Container from "../components/Container";
 import Button from "../components/Button";
-import { getCountryByName, getNameByCode } from "../api/requests";
+import { getCountryByName } from "../api/requests";
+import { getCountryNameByISO } from "../utils/countryUtils";
 import Loader from "../components/Loader";
 
 type CountryInfo = {
@@ -24,8 +25,8 @@ type CountryInfo = {
 
 export default function CountryInstpectPage() {
   const [countryInfo, setCountryInfo] = useState<CountryInfo>();
-  const [borders, setBorders] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const [borders, setBorders] = useState<string[]>([]);
   const { countryName } = useParams();
 
   const navigate = useNavigate();
@@ -36,8 +37,6 @@ export default function CountryInstpectPage() {
       setLoading(true);
       try {
         const countryData = await getCountryByName(countryName);
-
-        console.log(countryData[0]);
         setCountryInfo(countryData[0]);
       } catch (error) {
         console.log(error);
@@ -49,26 +48,15 @@ export default function CountryInstpectPage() {
   }, [countryName]);
 
   useEffect(() => {
-    const getBorders = async () => {
-      if (!countryInfo?.borders || countryInfo.borders.length === 0) {
-        return;
-      }
-      try {
-        const borders = await Promise.all(
-          countryInfo?.borders.map((country: string) => getNameByCode(country))
-        );
+    const borderArray =
+      (countryInfo?.borders &&
+        countryInfo?.borders.map((code) => {
+          return getCountryNameByISO(code);
+        })) ||
+      [];
 
-        setBorders(borders);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    getBorders();
-  }, [countryInfo]);
-
-  useEffect(() => {
-    console.log(countryInfo);
+    console.log(borderArray);
+    setBorders(borderArray);
   }, [countryInfo]);
 
   if (loading) return <Loader />;
@@ -87,10 +75,12 @@ export default function CountryInstpectPage() {
         <div>
           <Button
             onClick={() => navigate("/")}
-            text="Home"
             className="flex gap-2 flex-row px-10 py-3 bg-[#1f1f1f]"
           >
-            <img src="/icons/arrow.svg" className="brightness-1000"></img>
+            <>
+              <img src="/icons/arrow.svg" className="brightness-1000"></img>
+              <p>Home</p>
+            </>
           </Button>
         </div>
       </Container>
@@ -197,15 +187,18 @@ export default function CountryInstpectPage() {
 
           <div className="flex flex-row gap-4 flex-wrap ">
             {borders.length > 0 ? (
-              borders.map((country, index) => (
-                <Button
-                  onClick={() => navigate(`/country/${country}`)}
-                  key={index}
-                  text={country}
-                />
-              ))
+              borders.map((country, index) => {
+                return (
+                  <Button
+                    onClick={() => navigate(`/country/${country}`)}
+                    key={index}
+                  >
+                    <p>{country}</p>
+                  </Button>
+                );
+              })
             ) : (
-              <h2 className=" font-bold">N/A</h2>
+              <h2 className="font-bold">N/A</h2>
             )}
           </div>
         </div>
