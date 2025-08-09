@@ -75,7 +75,7 @@ export default function CountryInstpectPage() {
         <div>
           <Button
             onClick={() => navigate("/")}
-            className="flex gap-2 flex-row px-10 py-3 bg-[#1f1f1f]"
+            className="flex gap-2 flex-row px-10 py-3 bg-accent"
           >
             <>
               <img src="/icons/arrow.svg" className="brightness-1000"></img>
@@ -86,7 +86,7 @@ export default function CountryInstpectPage() {
       </Container>
 
       <Container className="">
-        <div className="relative after:content-[''] after:absolute after:inset-0 after:bg-gradient-to-t after:from-[#131314] after:to-[#131314]/0">
+        <div className="relative after:content-[''] after:absolute after:inset-0 after:bg-gradient-to-t after:from-primary after:to-primary/0">
           <img
             className="w-full h-[300px] object-cover opacity-70"
             src={countryInfo?.flags.svg}
@@ -109,7 +109,7 @@ export default function CountryInstpectPage() {
 
       <Container className="grid lg:grid-cols-2 md:grid-cols-1 px-5 mt-10 gap-10">
         <div className="grid grid-cols-2 gap-5">
-          <ul className="flex flex-col gap-5 border border-[#131314]">
+          <ul className="flex flex-col gap-5">
             <li>
               <h1 className="">Official Name:</h1>
               <h2 className=" font-bold">{countryInfo?.name.official}</h2>
@@ -145,7 +145,7 @@ export default function CountryInstpectPage() {
             </li>
           </ul>
 
-          <ul className="flex flex-col gap-5 border border-[#131314]">
+          <ul className="flex flex-col gap-5">
             <li>
               <h1 className="">Area:</h1>
               <h2 className=" font-bold">

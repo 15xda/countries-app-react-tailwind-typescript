@@ -17,7 +17,7 @@ export default function Button({
     <button
       type="button"
       onClick={onClick}
-      className={`${className} text-white px-5 py-1 bg-[#1F1F1F] transform hover:-translate-y-1 transition duration-300 ease-in-out hover:outline hover:outline-solid hover:outline-white cursor-pointer`}
+      className={`${className} text-white px-5 py-1 bg-accent transform hover:-translate-y-1 transition duration-300 ease-in-out hover:outline hover:outline-solid hover:outline-white cursor-pointer`}
       {...otherProps}
     >
       {children}

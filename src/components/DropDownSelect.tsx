@@ -20,14 +20,14 @@ export default function DropDownSelect({
         onClick={() => {
           setIsActive(!isActive);
         }}
-        className={`w-full cursor-pointer bg-[#1F1F1F] select-none px-7 py-4 hover:outline hover:outline-white`}
+        className={`w-full cursor-pointer bg-accent select-none px-7 py-4 hover:outline hover:outline-white`}
       >
         Region: {activeRegion}
       </button>
       <div
         className={`${
           !isActive && "hidden"
-        } flex flex-col absolute mt-17 bg-[#1F1F1F] w-full z-100 gap-2 py-4 outline outline-white`}
+        } flex flex-col absolute mt-17 bg-accent w-full z-100 gap-2 py-4 outline outline-white`}
       >
         {["None", ...regions].map((region) => (
           <button
